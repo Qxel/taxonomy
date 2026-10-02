@@ -39,11 +39,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet -- categories.json; then
-            echo "No changes to commit"
-            exit 0
-          fi
-
           git add categories.json
           git commit -m "Update categories.json"
           git push origin v1
