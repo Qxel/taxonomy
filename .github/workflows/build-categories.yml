@@ -1,0 +1,44 @@
+name: Build categories.json
+
+on:
+  push:
+    branches: [v1]
+    paths:
+      - 'library/**'
+  workflow_dispatch:
+
+jobs:
+  build-categories:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate categories.json from library directories
+        run: |
+          python3 - <<'EOF'
+          import json, os
+
+          library_dir = "library"
+          categories = []
+
+          if os.path.isdir(library_dir):
+              categories = sorted(
+                  name for name in os.listdir(library_dir)
+                  if os.path.isdir(os.path.join(library_dir, name))
+              )
+
+          with open("categories.json", "w") as f:
+              json.dump(categories, f, indent=2)
+
+          print(f"Generated categories.json with {len(categories)} entries:")
+          print("\n".join(categories))
+          EOF
+
+      - name: Commit and push categories.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add categories.json
+          git commit -m "Update categories.json"
+          git push origin v1
