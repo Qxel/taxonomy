@@ -2,7 +2,7 @@ name: Build categories.json
 
 on:
   push:
-    branches: [v1]
+    branches: [main]
     paths:
       - 'library/**'
   workflow_dispatch:
@@ -41,4 +41,4 @@ jobs:
 
           git add categories.json
           git commit -m "Update categories.json"
-          git push origin v1
+          git push origin main
