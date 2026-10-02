@@ -13,6 +13,7 @@ For example:
 
 ~~~yml
 1_author.yml
+2_book.yml
 ~~~
 
 And inside it, items like famous authors.
